@@ -24,9 +24,6 @@ class App extends Component{
             <Box>
               <ResumeImageDialog />
             </Box>
-            <Box>
-              <FontFamily />
-            </Box>
           </Box>
         </div>
       </Router>

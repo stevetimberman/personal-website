@@ -18,6 +18,8 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import Icon from '@material-ui/core/Icon';
+
 
 
 
@@ -50,7 +52,8 @@ export default function ResumeImageDialog() {
 
   return (
     <div>
-      <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="Split button">
+      <ButtonGroup variant="contained" ref={anchorRef} aria-label="Split button">
+          <Button >Apps </Button>
           <Button onClick={handleClickOpen(options[selectedIndex])}>{options[selectedIndex]}</Button>
           <Button
             color="primary"
