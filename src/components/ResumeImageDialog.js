@@ -19,15 +19,20 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Icon from '@material-ui/core/Icon';
+import Box from '@material-ui/core/Box';
+import { Redirect } from 'react-router';
+
 
 
 
 
 
 export default function ResumeImageDialog() {
-  const options = ['Resume', 'Steve yes'];
+  const options = ['Choose an App', 'Receipt Splitter'];
 
   const [open, setOpen] = React.useState("None");
+  const [redirect, setRedirect] = React.useState(false)
+  const [redirecturl, setRedirecturl] = React.useState('None')
   const [scroll, setScroll] = React.useState('paper');
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -41,6 +46,18 @@ export default function ResumeImageDialog() {
     setScroll('paper');
   };
 
+  const handleClickRedirect = redirectApp => () => {
+    var curRedirectUrl = ''
+    if (redirectApp == 'Choose an App'){
+      return
+    }
+    if (redirectApp == 'Receipt Splitter'){
+      curRedirectUrl = 'receipt'
+    }
+    setRedirecturl(curRedirectUrl)
+    setRedirect(true);
+  };
+
   function handleClose() {
     setOpen('None');
   }
@@ -50,11 +67,15 @@ export default function ResumeImageDialog() {
     setOpen('None');
   }
 
+  if (redirect){
+    return <Redirect push to={"/"+redirecturl} />;
+  }
+
   return (
-    <div>
+    <Box >
       <ButtonGroup variant="contained" ref={anchorRef} aria-label="Split button">
-          <Button >Apps </Button>
-          <Button onClick={handleClickOpen(options[selectedIndex])}>{options[selectedIndex]}</Button>
+          <Button onClick={handleClickOpen('Resume')}>Resume </Button>
+          <Button onClick={handleClickRedirect(options[selectedIndex])}>{options[selectedIndex]}</Button>
           <Button
             color="primary"
             variant="contained"
@@ -115,6 +136,6 @@ export default function ResumeImageDialog() {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 }
