@@ -22,10 +22,7 @@ import Icon from '@material-ui/core/Icon';
 import Box from '@material-ui/core/Box';
 import { Redirect } from 'react-router';
 
-
-
-
-
+import Libraries from './Libraries'
 
 export default function ResumeImageDialog() {
   const options = ['Choose an App', 'Receipt Splitter'];
@@ -52,7 +49,7 @@ export default function ResumeImageDialog() {
       return
     }
     if (redirectApp == 'Receipt Splitter'){
-      curRedirectUrl = 'receipt'
+      curRedirectUrl = '/receipt'
     }
     setRedirecturl(curRedirectUrl)
     setRedirect(true);
@@ -68,13 +65,23 @@ export default function ResumeImageDialog() {
   }
 
   if (redirect){
-    return <Redirect push to={"/"+redirecturl} />;
+    if (redirecturl[0] != "/"){
+      window.open(redirecturl)
+    }else{return <Redirect push to={redirecturl} />}
+  }
+
+  var dialogContent;
+  if (open=='Resume'){
+    dialogContent = <img src={resume}/>
+  }else if (open=='Libraries'){
+    dialogContent = <Libraries/>
   }
 
   return (
     <Box >
       <ButtonGroup variant="contained" ref={anchorRef} aria-label="Split button">
           <Button onClick={handleClickOpen('Resume')}>Resume </Button>
+          <Button onClick={handleClickOpen('Libraries')}>Libraries </Button>
           <Button onClick={handleClickRedirect(options[selectedIndex])}>{options[selectedIndex]}</Button>
           <Button
             color="primary"
@@ -102,7 +109,7 @@ export default function ResumeImageDialog() {
                     {options.map((option, index) => (
                       <MenuItem
                         key={option}
-                        disabled={index === 2}
+
                         selected={index === selectedIndex}
                         onClick={event => handleMenuItemClick(event, index)}
                       >
@@ -117,17 +124,17 @@ export default function ResumeImageDialog() {
         </Popper>
 
       <Dialog
-        open={true ? open=='Resume' : false}
+        open={true ? (open=='Resume' || open=='Libraries') : false}
         onClose={handleClose}
         scroll={scroll}
         maxWidth={maxWidth}
         aria-labelledby="steves-resume"
         fullScreen={fullScreen}
       >
-        <DialogTitle id="steves-resume">Steven's Resume</DialogTitle>
+        <DialogTitle id="steves-resume">Steven's {open}</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText>
-            <img src={resume}/>
+            {dialogContent}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
